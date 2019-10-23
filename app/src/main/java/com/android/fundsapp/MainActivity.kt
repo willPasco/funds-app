@@ -1,14 +1,15 @@
 package com.android.fundsapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.android.fundsapp.fundslist.FundsRepository
+import androidx.appcompat.app.AppCompatActivity
+import com.android.fundsapp.domain.FundsListView
+import com.android.fundsapp.domain.presenter.FundsListPresenter
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FundsListView {
 
     @Inject
-    lateinit var repository: FundsRepository
+    lateinit var presenter: FundsListPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         AppApplication.getMainComponent().inject(this)
 
-        repository.getFunds()
+        presenter.bind(this)
+        presenter.getFunds()
     }
 }
