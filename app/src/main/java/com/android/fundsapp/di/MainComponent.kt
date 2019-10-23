@@ -2,6 +2,7 @@ package com.android.fundsapp.di
 
 import com.android.fundsapp.MainActivity
 import dagger.Component
+import javax.inject.Singleton
 
 @Component(
     modules = [NetworkModule::class,
@@ -9,6 +10,7 @@ import dagger.Component
         RepositoryModule::class,
         ModelModule::class]
 )
+@Singleton
 interface MainComponent {
 
     fun inject(mainActivity: MainActivity)
