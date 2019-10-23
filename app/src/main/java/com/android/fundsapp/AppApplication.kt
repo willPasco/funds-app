@@ -6,7 +6,13 @@ import com.android.fundsapp.di.MainComponent
 
 class AppApplication : Application() {
 
-    private lateinit var daggerMainComponent: MainComponent
+    companion object {
+        private lateinit var daggerMainComponent: MainComponent
+
+        fun getMainComponent(): MainComponent {
+            return daggerMainComponent
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -17,7 +23,4 @@ class AppApplication : Application() {
         daggerMainComponent = DaggerMainComponent.builder().build()
     }
 
-    fun getMainComponent(): MainComponent {
-        return daggerMainComponent
-    }
 }
