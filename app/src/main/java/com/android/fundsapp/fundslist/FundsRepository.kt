@@ -9,13 +9,17 @@ import javax.inject.Inject
 class FundsRepository @Inject constructor(private val service: FundsService) {
 
     @SuppressLint("CheckResult")
-    fun getFunds(){
+    fun getFunds() {
         service.getFunds("100", "0", "fund_detail_full")
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe(
-                {response -> Log.i("test", response)},
-                { error -> Log.e("test", error.toString())}
+                { response ->
+                    response.forEach {
+                        Log.i("test", "${it.simpleName} ${it.operability.minimumApplication}")
+                    }
+                },
+                { error -> Log.e("test", error.toString()) }
             )
     }
 }
