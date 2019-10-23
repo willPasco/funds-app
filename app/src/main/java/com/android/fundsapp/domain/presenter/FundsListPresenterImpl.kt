@@ -22,10 +22,6 @@ class FundsListPresenterImpl @Inject constructor(
         this.view = view
     }
 
-    override fun onStop() {
-
-    }
-
     override fun getFunds() {
         compositeDisposable.add(
             repository.getFunds()
