@@ -1,6 +1,6 @@
 package com.android.fundsapp.di
 
-import com.android.fundsapp.service.FundsService
+import com.android.fundsapp.data.service.FundsService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module

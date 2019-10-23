@@ -1,5 +1,6 @@
-package com.android.fundsapp.service
+package com.android.fundsapp.data.service
 
+import com.android.fundsapp.data.entity.FundResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -11,5 +12,5 @@ interface FundsService {
         @Query("limit") limit: String,
         @Query("offset") offset: String,
         @Query("serialize") serializer: String
-    ): Single<String>
+    ): Single<List<FundResponse>>
 }

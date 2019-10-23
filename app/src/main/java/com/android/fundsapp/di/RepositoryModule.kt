@@ -1,7 +1,7 @@
 package com.android.fundsapp.di
 
 import com.android.fundsapp.fundslist.FundsRepository
-import com.android.fundsapp.service.FundsService
+import com.android.fundsapp.data.service.FundsService
 import dagger.Module
 import dagger.Provides
 

@@ -2,7 +2,7 @@ package com.android.fundsapp.fundslist
 
 import android.annotation.SuppressLint
 import android.util.Log
-import com.android.fundsapp.service.FundsService
+import com.android.fundsapp.data.service.FundsService
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
