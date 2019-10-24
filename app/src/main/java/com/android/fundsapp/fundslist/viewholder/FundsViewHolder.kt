@@ -11,10 +11,11 @@ class FundsViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
     private val textViewFundTitle by lazy { view.findViewById<TextView>(R.id.text_view_funds_title) }
     private val textViewMinimumApplication by lazy { view.findViewById<TextView>(R.id.text_view_minimum_application) }
+    private val layoutContainer by lazy { view.findViewById<View>(R.id.layout_container) }
 
     fun bind(model: FundResponse, listener: FundsRecyclerAdapter.OnItemClicked) {
 
-        view.setOnClickListener {
+        layoutContainer.setOnClickListener {
             listener.onClick()
         }
 

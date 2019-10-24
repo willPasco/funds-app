@@ -49,7 +49,7 @@ class FundsListActivity : AppCompatActivity(), FundsListView {
 
         adapterListener = object : FundsRecyclerAdapter.OnItemClicked {
             override fun onClick() {
-                Toast.makeText(this@FundsListActivity, "Fake open detail", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@FundsListActivity, "Fake open detail.", Toast.LENGTH_LONG).show()
             }
         }
 
