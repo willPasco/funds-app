@@ -5,4 +5,5 @@ import com.android.fundsapp.data.entity.FundResponse
 
 interface FundsListView : BaseView {
     fun showData(dataList: List<FundResponse>)
+    fun showError()
 }

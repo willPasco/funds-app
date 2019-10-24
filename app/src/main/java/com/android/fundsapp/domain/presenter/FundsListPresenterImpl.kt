@@ -10,12 +10,17 @@ import javax.inject.Inject
 
 class FundsListPresenterImpl @Inject constructor(
     private val repository: FundsRepository,
-    compositeDisposable: CompositeDisposable) : BasePresenterImpl(compositeDisposable), FundsListPresenter {
+    compositeDisposable: CompositeDisposable
+) : BasePresenterImpl(compositeDisposable), FundsListPresenter {
 
     lateinit var view: FundsListView
 
     init {
         AppApplication.getMainComponent().inject(this@FundsListPresenterImpl)
+    }
+
+    companion object {
+        private const val TAG = "FundsListPresenterImpl"
     }
 
     override fun bind(view: FundsListView) {
@@ -29,7 +34,10 @@ class FundsListPresenterImpl @Inject constructor(
                     { response ->
                         view.showData(response)
                     },
-                    { error -> Log.e("test", error.toString()) }
+                    { error ->
+                        Log.e(TAG, "Error in funds request ${error.message}")
+                        view.showError()
+                    }
                 ))
     }
 }
