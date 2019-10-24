@@ -2,10 +2,14 @@ package com.android.fundsapp.fundslist
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.fundsapp.AppApplication
 import com.android.fundsapp.R
+import com.android.fundsapp.data.entity.FundResponse
 import com.android.fundsapp.domain.FundsListView
 import com.android.fundsapp.domain.presenter.FundsListPresenter
+import kotlinx.android.synthetic.main.activity_funds_list.*
 import javax.inject.Inject
 
 class FundsListActivity : AppCompatActivity(), FundsListView {
@@ -21,5 +25,11 @@ class FundsListActivity : AppCompatActivity(), FundsListView {
 
         presenter.bind(this)
         presenter.getFunds()
+    }
+
+
+    override fun showData(dataList: List<FundResponse>){
+        recycler_view.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        recycler_view.adapter = FundsRecyclerAdapter(dataList)
     }
 }

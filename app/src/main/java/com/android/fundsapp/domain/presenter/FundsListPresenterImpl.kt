@@ -27,9 +27,7 @@ class FundsListPresenterImpl @Inject constructor(
             repository.getFunds()
                 .subscribe(
                     { response ->
-                        response.forEach {
-                            Log.i("test", "${it.simpleName} ${it.operability.minimumApplication}")
-                        }
+                        view.showData(response)
                     },
                     { error -> Log.e("test", error.toString()) }
                 ))
