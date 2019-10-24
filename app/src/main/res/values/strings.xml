@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Funds app</string>
+    <string name="minimum_application">Minimum application</string>
 </resources>
