@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.fundsapp.R
 import com.android.fundsapp.data.entity.FundResponse
 import com.android.fundsapp.fundslist.adapter.FundsRecyclerAdapter
+import java.text.NumberFormat
+
 
 class FundsViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
@@ -20,10 +22,16 @@ class FundsViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         }
 
         textViewFundTitle.text = model.simpleName
+        val currency = formatCurrency(model.operability.minimumApplication)
 
         val minimumApplicationText =
-            textViewMinimumApplication.context.getString(R.string.minimum_application) + "\n${model.operability.minimumApplication}"
+            textViewMinimumApplication.context.getString(R.string.minimum_application) + "\nR$currency"
         textViewMinimumApplication.text = minimumApplicationText
+    }
+
+    private fun formatCurrency(minimumApplication: Double): String {
+        val formatter = NumberFormat.getCurrencyInstance()
+        return formatter.format(minimumApplication)
     }
 
 }
