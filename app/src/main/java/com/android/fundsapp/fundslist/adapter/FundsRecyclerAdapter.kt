@@ -1,4 +1,4 @@
-package com.android.fundsapp.fundslist
+package com.android.fundsapp.fundslist.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import com.android.fundsapp.R
 import com.android.fundsapp.data.entity.FundResponse
 import com.android.fundsapp.fundslist.viewholder.FundsViewHolder
 
-class FundsRecyclerAdapter(private val fundsList: List<FundResponse>) : RecyclerView.Adapter<FundsViewHolder>() {
+class FundsRecyclerAdapter(private val fundsList: List<FundResponse>, private val listener: OnItemClicked) : RecyclerView.Adapter<FundsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FundsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -21,6 +21,10 @@ class FundsRecyclerAdapter(private val fundsList: List<FundResponse>) : Recycler
     }
 
     override fun onBindViewHolder(holder: FundsViewHolder, position: Int) {
-        holder.bind(fundsList[position])
+        holder.bind(fundsList[position], listener)
+    }
+
+    interface OnItemClicked{
+        fun onClick()
     }
 }

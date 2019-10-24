@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,17 +17,19 @@ import com.android.fundsapp.R
 import com.android.fundsapp.data.entity.FundResponse
 import com.android.fundsapp.domain.FundsListView
 import com.android.fundsapp.domain.presenter.FundsListPresenter
+import com.android.fundsapp.fundslist.adapter.FundsRecyclerAdapter
 import kotlinx.android.synthetic.main.activity_funds_list.*
 import javax.inject.Inject
 
 
 class FundsListActivity : AppCompatActivity(), FundsListView {
 
-    companion object{
+    companion object {
         private const val REQUEST_CODE = 563
         private const val TAG = "FundsListActivity"
     }
 
+    private lateinit var adapterListener: FundsRecyclerAdapter.OnItemClicked
     private lateinit var dialogMissConnection: Dialog
     private lateinit var dialogError: Dialog
 
@@ -42,6 +45,12 @@ class FundsListActivity : AppCompatActivity(), FundsListView {
         dialogError = buildErrorDialog()
         dialogMissConnection = buildNoConnectionDialog()
 
+        adapterListener = object : FundsRecyclerAdapter.OnItemClicked {
+            override fun onClick() {
+                Toast.makeText(this@FundsListActivity, "Fake open detail", Toast.LENGTH_LONG).show()
+            }
+        }
+
         presenter.bind(this)
 
         doRequest()
@@ -49,7 +58,7 @@ class FundsListActivity : AppCompatActivity(), FundsListView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == REQUEST_CODE){
+        if (requestCode == REQUEST_CODE) {
             doRequest()
         } else {
             Log.e(TAG, "Unknown request code.")
@@ -66,7 +75,8 @@ class FundsListActivity : AppCompatActivity(), FundsListView {
     override fun showData(dataList: List<FundResponse>) {
         hideLoading()
         recycler_view.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        recycler_view.adapter = FundsRecyclerAdapter(dataList)
+        recycler_view.adapter =
+            FundsRecyclerAdapter(dataList, adapterListener)
     }
 
     override fun showError() {
