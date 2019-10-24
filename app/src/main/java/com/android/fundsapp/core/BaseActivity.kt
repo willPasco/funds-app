@@ -17,4 +17,9 @@ class BaseActivity : AppCompatActivity(), BaseView {
         AppApplication.getMainComponent().inject(this)
         presenter.bind(this)
     }
+
+    override fun onStop() {
+        presenter.onStop()
+        super.onStop()
+    }
 }
