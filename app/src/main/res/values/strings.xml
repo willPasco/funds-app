@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Funds app</string>
+    <string name="minimum_application">Minimum application</string>
+    <string name="try_again">Try Again</string>
+    <string name="cancel">Cancel</string>
+    <string name="error">Error in request</string>
+    <string name="dialog_fire_missiles">Error to retrieve the data</string>
+    <string name="error_no_connection">No connection</string>
+    <string name="message_no_connection">Your phone doesn\'t have any internet connection.</string>
+    <string name="settings">Go Settings</string>
 </resources>
