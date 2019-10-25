@@ -9,15 +9,18 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.IdlingResource
 import com.android.fundsapp.AppApplication
 import com.android.fundsapp.R
 import com.android.fundsapp.data.entity.FundResponse
 import com.android.fundsapp.domain.FundsListView
 import com.android.fundsapp.domain.presenter.FundsListPresenter
 import com.android.fundsapp.fundslist.adapter.FundsRecyclerAdapter
+import com.android.fundsapp.utils.SimpleIdeResource
 import kotlinx.android.synthetic.main.activity_funds_list.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
@@ -30,6 +33,7 @@ class FundsListActivity : AppCompatActivity(), FundsListView {
         private const val TAG = "FundsListActivity"
     }
 
+    private var idlingResource: SimpleIdeResource? = null
     private lateinit var adapterListener: FundsRecyclerAdapter.OnItemClicked
     private lateinit var dialogMissConnection: Dialog
     private lateinit var dialogError: Dialog
@@ -40,6 +44,7 @@ class FundsListActivity : AppCompatActivity(), FundsListView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_funds_list)
+        getIdlingResource()
 
         AppApplication.getMainComponent().inject(this)
 
@@ -49,7 +54,8 @@ class FundsListActivity : AppCompatActivity(), FundsListView {
 
         adapterListener = object : FundsRecyclerAdapter.OnItemClicked {
             override fun onClick() {
-                Toast.makeText(this@FundsListActivity, "Fake open detail.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@FundsListActivity, "Fake open detail.", Toast.LENGTH_LONG)
+                    .show()
             }
         }
 
@@ -68,10 +74,13 @@ class FundsListActivity : AppCompatActivity(), FundsListView {
     }
 
     private fun doRequest() {
+        idlingResource!!.setIdleState(false)
         if (isThereConnection())
             presenter.getFunds()
-        else
+        else{
             dialogMissConnection.show()
+            idlingResource!!.setIdleState(true)
+        }
     }
 
     override fun showData(dataList: List<FundResponse>) {
@@ -79,6 +88,8 @@ class FundsListActivity : AppCompatActivity(), FundsListView {
         recycler_view.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recycler_view.adapter =
             FundsRecyclerAdapter(dataList, adapterListener)
+
+        idlingResource!!.setIdleState(true)
     }
 
     override fun showError() {
@@ -92,7 +103,7 @@ class FundsListActivity : AppCompatActivity(), FundsListView {
 
     private fun setUpToolbar() {
         setSupportActionBar(toolbar)
-            text_toolbar_title.text = getString(R.string.app_name)
+        text_toolbar_title.text = getString(R.string.app_name)
         supportActionBar?.setHomeButtonEnabled(false)
     }
 
@@ -129,7 +140,6 @@ class FundsListActivity : AppCompatActivity(), FundsListView {
         return builder.create()
     }
 
-
     private fun isThereConnection(): Boolean {
         val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -145,4 +155,13 @@ class FundsListActivity : AppCompatActivity(), FundsListView {
     private fun hideLoading() {
         progress_bar.visibility = View.INVISIBLE
     }
+
+    @VisibleForTesting
+    fun getIdlingResource(): IdlingResource {
+        if (idlingResource == null) {
+            idlingResource = SimpleIdeResource()
+        }
+        return idlingResource!!
+    }
+
 }
